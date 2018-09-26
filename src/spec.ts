@@ -31,5 +31,18 @@ describe('A suite', () => {
     payInMoscow.click();
 
     browser.wait(ExpectedConditions.urlIs('https://www.tinkoff.ru/zhku-moskva/oplata/?tab=pay'), 15000);
+
+    const payerCode = element(by.name('provider-payerCode'));
+    payerCode.sendKeys('00000');
+
+    const period = element(by.name('provider-period'));
+    period.sendKeys('00000');
+
+    const payButton = element(by.xpath('//button[@data-qa-file="UIButton"]'));
+    payButton.click();
+
+    const err = element(by.xpath('//div[@data-qa-file="UIFormRowError"]'));
+    const errText = await err.getText();
+    expect(errText).toEqual('Поле неправильно заполненоq');
   });
 });
