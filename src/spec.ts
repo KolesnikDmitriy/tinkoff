@@ -38,4 +38,14 @@ describe('Tinkoff base suite', () => {
 
     expect(await oplataPage.getUrl()).toEqual('https://www.tinkoff.ru/zhku-moskva/oplata/?tab=pay');
   });
+
+  it('find first provider in st. petersburg', async () => {
+    const homePage = new HomePage();
+    await homePage.load();
+    const paymentPage = await homePage.goToPaymentsPage();
+    const communalPaymentsPage = await paymentPage.goToCommunalPage();
+
+    await communalPaymentsPage.setCity('г. Санкт-Петербург');
+    expect(await communalPaymentsPage.getCityName()).toEqual('Санкт-Петербурге');
+  });
 });

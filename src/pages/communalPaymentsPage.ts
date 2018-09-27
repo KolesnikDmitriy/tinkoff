@@ -6,6 +6,17 @@ export default class CommunalPaymentsPage {
     return await element(by.xpath('//span[@data-qa-file="PaymentsCatalogHeader"]/span/span')).getText();
   }
 
+  async setCity(name: string) {
+    await element(by.xpath('//span[@data-qa-file="PaymentsCatalogHeader"]/span/span')).click();
+    await browser.wait(() => {
+      return element(by.xpath('//div[@data-qa-file="UIRegions"]/div[@data-qa-file="Text"]')).isPresent();
+    }, 5000);
+    await element(by.xpath(`//span[@data-qa-file="UILink" and text() ="${name}"]`)).click();
+    await browser.wait(() => {
+      return element(by.xpath('//div[@data-qa-file="FadeText"]')).isPresent();
+    }, 5000);
+  }
+
   async findTextFirstProvider() {
     await browser.wait(() => {
       return element(by.xpath('//div[@data-qa-file="FadeText"]')).isPresent();
