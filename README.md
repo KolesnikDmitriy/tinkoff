@@ -5,13 +5,13 @@
 To run, you will need to have Node.js installed.
 Check `node -v`
 
-You should have protractor installed globaly
+You should have protractor installed globally
 
 ```
 npm i -g protractor
 ```
 
-Run webdriver to run tests localy
+Run webdriver to run tests locally
 
 ```
 webdriver-manager update
