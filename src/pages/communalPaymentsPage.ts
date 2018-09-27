@@ -1,8 +1,7 @@
 import { browser, element, by, ExpectedConditions } from 'protractor';
 import ZhkuPage from './zhkuPage';
-import DefaultPage from './defaultPage';
 
-export default class CommunalPaymentsPage extends DefaultPage {
+export default class CommunalPaymentsPage {
   async getCityName() {
     return await element(by.xpath('//span[@data-qa-file="PaymentsCatalogHeader"]/span/span')).getText();
   }

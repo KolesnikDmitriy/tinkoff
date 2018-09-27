@@ -1,7 +1,6 @@
 import { element, by } from 'protractor';
-import DefaultPage from './defaultPage';
 
-export default class OplataPage extends DefaultPage {
+export default class OplataPage {
   async sendKeysToPayerCode(keys: string) {
     await element(by.xpath('//input[@name="provider-payerCode"]')).sendKeys(keys);
   }
