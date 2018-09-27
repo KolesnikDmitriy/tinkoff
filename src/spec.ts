@@ -1,4 +1,3 @@
-import { browser, element, by, ExpectedConditions } from 'protractor';
 import HomePage from './pages/homePage';
 import PaymentsPage from './pages/paymentsPage';
 import CommunalPaymentsPage from './pages/communalPaymentsPage';
@@ -25,5 +24,7 @@ describe('A suite', () => {
     await oplataPage.sendKeysToPeriod('00000');
     await oplataPage.clickPayButton();
     expect(await oplataPage.findErrorTextMessage()).toEqual('Поле неправильно заполнено');
+
+    await oplataPage.goToPaymentsPage();
   });
 });

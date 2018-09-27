@@ -1,6 +1,7 @@
 import { element, by } from 'protractor';
+import DefaultPage from './defaultPage';
 
-export default class OplataPage {
+export default class OplataPage extends DefaultPage {
   async sendKeysToPayerCode(keys: string) {
     await element(by.xpath('//input[@name="provider-payerCode"]')).sendKeys(keys);
   }
@@ -14,6 +15,9 @@ export default class OplataPage {
   }
 
   async findErrorTextMessage() {
-    return await element(by.xpath('//div[@data-qa-file="UIFormRowError"]')).getText();
+    return await element
+      .all(by.xpath('//div[@data-qa-file="UIFormRowError"]'))
+      .first()
+      .getText();
   }
 }
