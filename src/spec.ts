@@ -1,48 +1,29 @@
 import { browser, element, by, ExpectedConditions } from 'protractor';
+import HomePage from './pages/homePage';
+import PaymentsPage from './pages/paymentsPage';
+import CommunalPaymentsPage from './pages/communalPaymentsPage';
+import ZhkuPage from './pages/zhkuPage';
+import OplataPage from './pages/oplataPage';
 
 describe('A suite', () => {
   it('contains spec with an expectation', async () => {
-    browser.waitForAngularEnabled(false);
-    browser.get('https://tinkoff.ru');
-    const payments = element(by.linkText('Платежи'));
-    payments.click();
+    const homePage = new HomePage();
+    await homePage.load();
 
-    browser.wait(ExpectedConditions.urlIs('https://www.tinkoff.ru/payments/'), 15000);
+    const paymentPage: PaymentsPage = await homePage.goToPaymentsPage();
 
-    const kommunalniePlatezhi = element(by.xpath('//div[@data-qa-file="PaymentsCategoryItem" and @aria-label="ЖКХ"]/a[@data-qa-file="Clickable"]'));
-    kommunalniePlatezhi.click();
+    const communalPaymentsPage: CommunalPaymentsPage = await paymentPage.goToCommunalPage();
 
-    browser.wait(ExpectedConditions.urlIs('https://www.tinkoff.ru/payments/categories/kommunalnie-platezhi/'), 15000);
+    expect(await communalPaymentsPage.getCityName()).toEqual('Москве');
+    expect(await communalPaymentsPage.findTextFirstProvider()).toEqual('ЖКУ-Москва');
 
-    const city = element(by.xpath('//span[@data-qa-file="PaymentsCatalogHeader"]/span/span'));
-    const cityName = await city.getText();
-    expect(cityName).toEqual('Москве');
+    const zhkhPage: ZhkuPage = await communalPaymentsPage.goToZhkuPage();
 
-    browser.wait(() => {
-      return element(by.xpath('//div[@data-qa-file="FadeText"]')).isPresent();
-    }, 5000);
+    const oplataPage: OplataPage = await zhkhPage.goToOplataPage();
 
-    const zhkh = element.all(by.xpath('//div[@data-qa-file="FadeText"]')).first();
-    zhkh.click();
-
-    browser.wait(ExpectedConditions.urlIs('https://www.tinkoff.ru/zhku-moskva/'), 15000);
-
-    const payInMoscow = element(by.xpath('//span[@data-qa-file="Tab" and text() = "Оплатить ЖКУ в Москве"]'));
-    payInMoscow.click();
-
-    browser.wait(ExpectedConditions.urlIs('https://www.tinkoff.ru/zhku-moskva/oplata/?tab=pay'), 15000);
-
-    const payerCode = element(by.name('provider-payerCode'));
-    payerCode.sendKeys('00000');
-
-    const period = element(by.name('provider-period'));
-    period.sendKeys('00000');
-
-    const payButton = element(by.xpath('//button[@data-qa-file="UIButton"]'));
-    payButton.click();
-
-    const err = element(by.xpath('//div[@data-qa-file="UIFormRowError"]'));
-    const errText = await err.getText();
-    expect(errText).toEqual('Поле неправильно заполненоq');
+    await oplataPage.sendKeysToPayerCode('00000');
+    await oplataPage.sendKeysToPeriod('00000');
+    await oplataPage.clickPayButton();
+    expect(await oplataPage.findErrorTextMessage()).toEqual('Поле неправильно заполнено');
   });
 });
