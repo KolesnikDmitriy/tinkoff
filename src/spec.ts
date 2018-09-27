@@ -32,5 +32,10 @@ describe('Tinkoff base suite', () => {
 
     await paymentPage.searchText(firstProvider);
     expect(await paymentPage.getFirstResult()).toEqual(firstProvider);
+
+    const zhkhPage = await paymentPage.clickToFirstProvider();
+    const oplataPage = await zhkhPage.goToOplataPage();
+
+    expect(await oplataPage.getUrl()).toEqual('https://www.tinkoff.ru/zhku-moskva/oplata/?tab=pay');
   });
 });

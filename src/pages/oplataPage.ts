@@ -1,4 +1,4 @@
-import { element, by } from 'protractor';
+import { browser, element, by } from 'protractor';
 
 export default class OplataPage {
   async sendKeysToPayerCode(keys: string) {
@@ -18,5 +18,9 @@ export default class OplataPage {
       .all(by.xpath('//div[@data-qa-file="UIFormRowError"]'))
       .first()
       .getText();
+  }
+
+  async getUrl() {
+    return await browser.getCurrentUrl();
   }
 }

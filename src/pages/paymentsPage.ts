@@ -1,5 +1,6 @@
 import { browser, element, by, ExpectedConditions } from 'protractor';
 import CommunalPaymentsPage from './communalPaymentsPage';
+import ZhkuPage from './zhkuPage';
 
 export default class PaymentsPage {
   async goToCommunalPage() {
@@ -21,5 +22,15 @@ export default class PaymentsPage {
       .all(by.xpath('//div[@data-qa-file="SuggestEntry"]/div[@data-qa-file="Text"]'))
       .first()
       .getText();
+  }
+
+  async clickToFirstProvider() {
+    await element
+      .all(by.xpath('//div[@data-qa-file="SuggestEntry"]/div[@data-qa-file="Text"]'))
+      .first()
+      .click();
+    await browser.wait(ExpectedConditions.urlIs('https://www.tinkoff.ru/zhku-moskva/'), 15000);
+
+    return new ZhkuPage();
   }
 }
